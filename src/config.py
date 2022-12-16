@@ -70,7 +70,7 @@ def replace_variables(config):
             root[k] = v
             return
 
-        if isinstance(v, (int, bool, float)):
+        if isinstance(v, (int, bool, float, type(None))):
             return
 
         if isinstance(v, dict):
