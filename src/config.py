@@ -180,6 +180,10 @@ def resolve(files):
     for (f1, f2) in reversed(links):
         if f1 not in load_order:
             load_order.append(f1)
+
+    for file in files:
+        if file not in load_order:
+            load_order.append(file)
     return load_order
 
 
