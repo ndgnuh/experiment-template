@@ -89,6 +89,20 @@ def get_experiment_name_from_file(fpath):
     return path.splitext(path.basename(fpath))[0]
 
 
+def remove_enforcer(cfg):
+    def process_key(k):
+        return k.rstrip("!")
+
+    def process_value(v):
+        if isinstance(v, dict):
+            return remove_enforcer(v)
+        return v
+
+    cfg = {process_key(k): process_value(v)
+           for k, v in cfg.items()}
+    return cfg
+
+
 def parse_key(key):
     if key.endswith("!"):
         return key.rstrip("!"), True
@@ -179,9 +193,10 @@ def load_configs(files):
         for file in load_order:
             cfg = merge_config(cfg, read(file))
 
-    # Remove special keys
+    # Remove special stuff in the keys
     if "__inherit__" in cfg:
         cfg.pop("__inherit__")
+    cfg = remove_enforcer(cfg)
 
     # Replace variables
     cfg = replace_variables(cfg)
