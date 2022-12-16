@@ -1,0 +1,21 @@
+{
+	"__variables__": {
+		"image_size": [224, 224]
+	},
+
+	"model": {
+		"image_size": "${image_size}"
+	},
+
+	"dataset": {
+		"train": {
+			"image_size": "${image_size}"
+		},
+		"test": {
+			"image_size": "${image_size}"
+		},
+		"val": {
+			"image_size": "${image_size}"
+		}
+	}
+}

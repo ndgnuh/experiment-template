@@ -21,7 +21,7 @@ def main():
     args = parser.parse_args()
     script = import_module(f"src.scripts.{args.action}")
     config = load_configs(args.configs)
-    ic(config)
+    script.main(config)
     # config = Config.load_yaml(args.config)
     # globals()[f"main_{args.action}"](config, args)
 

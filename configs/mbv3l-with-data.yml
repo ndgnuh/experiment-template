@@ -1,0 +1,4 @@
+__inherit__:
+  - base.json
+  - mbv3l.yml
+  - data.yml

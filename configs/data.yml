@@ -1,0 +1,13 @@
+__inherit__:
+  - base.json
+
+__variables__:
+  image_size!: [512, 512] # Override everything under this key with "!"
+
+data:
+  train:
+    path: /path/to/train
+  val:
+    path: /path/to/val
+  test:
+    path: /path/to/test
