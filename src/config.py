@@ -180,7 +180,8 @@ def load_configs(files):
             cfg = merge_config(cfg, read(file))
 
     # Remove special keys
-    cfg.pop("__inherit__")
+    if "__inherit__" in cfg:
+        cfg.pop("__inherit__")
 
     # Replace variables
     cfg = replace_variables(cfg)
