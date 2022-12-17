@@ -1,6 +1,40 @@
 import re
 from os import path
 
+__all__ = ["load_configs", "read", "ModuleLoader"]
+
+# Load module from config
+
+
+class ModuleLoader:
+    def __init__(self, *args, **kwarsg):
+        self.references = args + [kwargs]
+
+    def __call__(self, config):
+        # Search for the caller
+        key = config[":name"]
+        for table in self.references:
+            if isinstance(table, dict):
+                if key not in table:
+                    continue
+                else:
+                    value = table[key]
+                    break
+            else:
+                if not hasattr(table, key):
+                    continue
+                else:
+                    value = getattr(table, key)
+                    break
+
+        # Instantiate the
+        kwargs = {
+            k: v for k, v in config.items()
+            if k != ":name"
+        }
+        return Module(**kwargs)
+
+
 # READ FUNCTIONS
 
 
@@ -50,7 +84,7 @@ def add_config_argument(parser=None, **kw):
 
 
 def replace_variables(config):
-    variables = config["__variables__"]
+    variables = config.get("__variables__", dict())
     variables = {"${" + k + "}": v for k, v in variables.items()}
 
     def traverse(k, v, root):
