@@ -7,8 +7,8 @@ __all__ = ["load_configs", "read", "ModuleLoader"]
 
 
 class ModuleLoader:
-    def __init__(self, *args, **kwarsg):
-        self.references = args + [kwargs]
+    def __init__(self, *args, **kw):
+        self.references = tuple(args) + (kw,)
 
     def __call__(self, config):
         # Search for the caller
@@ -18,13 +18,13 @@ class ModuleLoader:
                 if key not in table:
                     continue
                 else:
-                    value = table[key]
+                    Module = table[key]
                     break
             else:
                 if not hasattr(table, key):
                     continue
                 else:
-                    value = getattr(table, key)
+                    Module = getattr(table, key)
                     break
 
         # Instantiate the
