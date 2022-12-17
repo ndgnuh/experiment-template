@@ -1,5 +1,6 @@
 import re
 from os import path
+from copy import copy
 
 __all__ = ["load_configs", "read", "ModuleLoader"]
 
@@ -11,8 +12,11 @@ class ModuleLoader:
         self.references = tuple(args) + (kw,)
 
     def __call__(self, config):
+        # Avoid mutation
+        config = copy(config)
+
         # Search for the caller
-        key = config[":name"]
+        key = config.pop(":name")
         for table in self.references:
             if isinstance(table, dict):
                 if key not in table:
@@ -27,12 +31,12 @@ class ModuleLoader:
                     Module = getattr(table, key)
                     break
 
-        # Instantiate the
-        kwargs = {
-            k: v for k, v in config.items()
-            if k != ":name"
-        }
-        return Module(**kwargs)
+        # Getting args and kwargs
+        args = config.pop(":args", [])
+        kwargs = config
+
+        # Instantiate
+        return Module(*args, **kwargs)
 
 
 # READ FUNCTIONS
