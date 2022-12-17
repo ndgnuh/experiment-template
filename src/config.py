@@ -222,10 +222,12 @@ def resolve(files):
 
 
 def load_configs(files):
+    # from icecream import install
+    # install()
     load_order = resolve(files)
 
     # Load files by order
-    first_file = files.pop(0)
+    first_file = load_order.pop(0)
     cfg = read(first_file)
     if len(load_order) > 0:
         for file in load_order:
