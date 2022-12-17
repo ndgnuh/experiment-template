@@ -11,7 +11,7 @@ class ModuleLoader:
     def __init__(self, *args, **kw):
         self.references = tuple(args) + (kw,)
 
-    def __call__(self, config):
+    def __call__(self, config, *more_a, **more_k):
         # Avoid mutation
         config = copy(config)
 
@@ -36,7 +36,7 @@ class ModuleLoader:
         kwargs = config
 
         # Instantiate
-        return Module(*args, **kwargs)
+        return Module(*args, *more_a, **kwargs, **more_k)
 
 
 # READ FUNCTIONS
